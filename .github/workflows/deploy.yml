@@ -69,7 +69,7 @@ jobs:
 
       - name: Build and push POA frontend image
         run: |
-          cd proof_of_account/react-app
+          cd proof_of_account/frontend
           #echo "REACT_APP_HOST=${{ vars.REACT_APP_HOST }} >> .env
           #echo "REACT_APP_PORT=${{ vars.REACT_APP_PORT }}" >> .env
           #echo "REACT_APP_CONTRACT_ADDRESS=${{ vars.REACT_APP_CONTRACT_ADDRESS }}" >> .env
