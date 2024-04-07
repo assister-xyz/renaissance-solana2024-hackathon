@@ -208,6 +208,7 @@ def get_users_data(max_users=None):
             response = requests.get(API_BASE_URL + "/users", params=params)
             if response.status_code == 200 and len(response.json()["items"]) != 0:
                 users_data = response.json()["items"]
+                users_data = [user for user in users_data if user['user_id'] != -1]
                 user_collection.insert_many(users_data)
                 total_users_fetched += len(users_data)
                 all_users.extend(users_data)

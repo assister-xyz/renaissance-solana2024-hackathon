@@ -43,23 +43,29 @@ def create_leaderboard_table(users, sorting_key, title):
         if i == 1:
             medal = "🥇"
             row_class = "gold"
-            row_style = "font-weight: bold; font-size: xx-large;"  # Larger size for 1st place
+            row_style = "font-weight: bold; font-size: xx-large;"  
         elif i == 2:
             medal = "🥈"
             row_class = "silver"
-            row_style = "font-weight: bold; font-size: x-large;"   # Larger size for 2nd place
+            row_style = "font-weight: bold; font-size: x-large;"   
         elif i == 3:
             medal = "🥉"
             row_class = "bronze"
-            row_style = "font-weight: bold; font-size: x-large;"   # Larger size for 3rd place
+            row_style = "font-weight: bold; font-size: x-large;"   
         else:
             medal = ""
             row_class = ""
             row_style = ""
         
+        profile_image = user.get('profile_image', '')  
+        if profile_image:
+            user_html = f"<a href='{user['link']}' target='_blank'><img src='{profile_image}' style='width: 50px; height: 50px; border-radius: 50%;'></a> {user['display_name']}"
+        else:
+            user_html = f"{user['display_name']}"
+        
         table += f"""<tr>
         <td class='center-text {row_class}' style='width: 5%; {row_style}'>{medal if i <= 3 else i}</td>
-        <td><a href='{user['link']}' target='_blank'><img src='{user['profile_image']}' style='width: 50px; height: 50px; border-radius: 50%;'></a> {user['display_name']}</td>
+        <td>{user_html}</td>
         <td class='center-text' style='width: 5%;'>{user[sorting_key]}</td>
         </tr>"""
 
