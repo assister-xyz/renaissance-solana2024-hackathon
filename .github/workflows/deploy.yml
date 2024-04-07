@@ -1,0 +1,102 @@
+name: "Build and Deploy"
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - "marian_branch"
+
+jobs:
+  release:
+    name: Build and Deploy
+    runs-on: ubuntu-22.04
+    env:
+      ECR_REPO: ${{ vars.ECR_REPO }}
+      AWS_ECS: ${{ vars.AWS_ECS }}
+      IMAGE_NAME_FRONTEND: ${{ vars.IMAGE_NAME_FRONTEND }}
+      IMAGE_NAME_BACKEND: ${{ vars.IMAGE_NAME_BACKEND }}
+      IMAGE_NAME_DATA_ADMIN: ${{ vars.IMAGE_NAME_DATA_ADMIN }}
+      IMAGE_NAME_POA_FRONTEND: ${{ vars.IMAGE_NAME_POA_FRONTEND }}
+      IMAGE_NAME_POA_BACKEND: ${{ vars.IMAGE_NAME_POA_BACKEND }}
+    steps:
+      - name: Checkout Marian
+        uses: actions/checkout@v4
+        with:
+          ref: 'marian_branch'
+      
+      - name: AWS Login
+        id: login-aws
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: us-east-1
+      
+      - name: AWS ECR login
+        id: login-ecr
+        uses: aws-actions/amazon-ecr-login@v2
+        with:
+          registry-type: private
+
+      - name: Build and push backend image
+        run: |
+          cd backend
+          docker build -t "$IMAGE_NAME_BACKEND:latest" .
+          docker tag "$IMAGE_NAME_BACKEND:latest" "$ECR_REPO/$IMAGE_NAME_BACKEND:latest"
+          docker push "$ECR_REPO/$IMAGE_NAME_BACKEND:latest"
+      
+
+      - name: Build and push frontend image
+        run: |
+          cd frontend
+          docker build -t "$IMAGE_NAME_FRONTEND:latest" .
+          docker tag "$IMAGE_NAME_FRONTEND:latest" "$ECR_REPO/$IMAGE_NAME_FRONTEND:latest"
+          docker push "$ECR_REPO/$IMAGE_NAME_FRONTEND:latest"
+          
+      - name: Build and push data-admin image
+        run: |
+          cd data_admin
+          docker build -t "$IMAGE_NAME_DATA_ADMIN:latest" .
+          docker tag "$IMAGE_NAME_DATA_ADMIN:latest" "$ECR_REPO/$IMAGE_NAME_DATA_ADMIN:latest"
+          docker push "$ECR_REPO/$IMAGE_NAME_DATA_ADMIN:latest"
+
+      - name: Build and push POA backend image
+        run: |
+          cd proof_of_account/backend
+          docker build -t "$IMAGE_NAME_POA_BACKEND:latest" .
+          docker tag "$IMAGE_NAME_POA_BACKEND:latest" "$ECR_REPO/$IMAGE_NAME_POA_BACKEND:latest"
+          docker push "$ECR_REPO/$IMAGE_NAME_POA_BACKEND:latest"
+
+      - name: Build and push POA frontend image
+        run: |
+          cd proof_of_account/react-app
+          #echo "REACT_APP_HOST=${{ vars.REACT_APP_HOST }} >> .env
+          #echo "REACT_APP_PORT=${{ vars.REACT_APP_PORT }}" >> .env
+          #echo "REACT_APP_CONTRACT_ADDRESS=${{ vars.REACT_APP_CONTRACT_ADDRESS }}" >> .env
+          #docker build --build-arg REACT_APP_HOST=${{ vars.REACT_APP_HOST }} --build-arg REACT_APP_PORT=${{ vars.REACT_APP_PORT }} --build-arg REACT_APP_CONTRACT_ADDRESS=${{ vars.REACT_APP_CONTRACT_ADDRESS }} -t "$IMAGE_NAME_POA_FRONTEND:latest" .
+          docker build -t "$IMAGE_NAME_POA_FRONTEND:latest" .
+          docker tag "$IMAGE_NAME_POA_FRONTEND:latest" "$ECR_REPO/$IMAGE_NAME_POA_FRONTEND:latest"
+          docker push "$ECR_REPO/$IMAGE_NAME_POA_FRONTEND:latest"
+
+      - name: Set ECS ROLE
+        id: set-ecs-role
+        run: |
+            echo "AWS_ECS_ROLE=${{ secrets.AWS_ECS_ROLE }}" >> $GITHUB_ENV
+            echo "AWS_ECS_NAME=${{ vars.AWS_ECS_CLUSTER_ARN }}" >> $GITHUB_ENV
+
+      - name: AWS ECS login
+        id: login-ecs
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_ACCESS_KEY_SECRET }}
+          aws-region: ${{ vars.AWS_REGION }}
+       
+      - name: Force new image redeploy
+        id: force-redeploy
+        run: |
+          aws ecs update-service --cluster $AWS_ECS --region ${{ vars.AWS_REGION }} --service ${{ vars.AWS_ECS_BACKEND }} --force-new-deployment
+          aws ecs update-service --cluster $AWS_ECS --region ${{ vars.AWS_REGION }} --service ${{ vars.AWS_ECS_FRONTEND }} --force-new-deployment
+          aws ecs update-service --cluster $AWS_ECS --region ${{ vars.AWS_REGION }} --service ${{ vars.AWS_ECS_DATAADMIN }} --force-new-deployment
+          aws ecs update-service --cluster $AWS_ECS --region ${{ vars.AWS_REGION }} --service ${{ vars.AWS_ECS_POA_BACKEND }} --force-new-deployment
+          aws ecs update-service --cluster $AWS_ECS --region ${{ vars.AWS_REGION }} --service ${{ vars.AWS_ECS_POA_FRONTEND }} --force-new-deployment
