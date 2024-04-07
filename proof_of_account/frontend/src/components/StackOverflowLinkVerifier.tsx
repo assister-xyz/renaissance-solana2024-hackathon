@@ -1,7 +1,28 @@
 import React, { useState, ChangeEvent } from 'react';
 import axios, { AxiosError } from 'axios'; // Import AxiosError for type declaration
-import { SignMessage } from "./SignMessage";
-//import './StackOverflowLinkVerifier.css';
+import { SignTransaction } from "@/components/SignTransaction";
+import { SignMessage } from "@/components/SignMessage";
+import { SignIn } from "@/components/SignIn";
+import dynamic from "next/dynamic";
+
+const ReactConnectButton = dynamic(
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletConnectButton,
+  { ssr: false }
+);
+const ReactDisconnectButton = dynamic(
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletDisconnectButton,
+  { ssr: false }
+);
+const ReactDialogButton = dynamic(
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletModalButton,
+  { ssr: false }
+);
+const ReactMultiButton = dynamic(
+  async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
+  { ssr: false }
+);
+
+import './StackOverflowLinkVerifier.css';
 
 interface StackOverflowLinkVerifierProps {}
 
@@ -112,7 +133,7 @@ const StackOverflowLinkVerifier: React.FC<StackOverflowLinkVerifierProps> = () =
           type="text"
           value={link}
           onChange={handleInputChange}
-          placeholder="Enter Stack Overflow Profile Link To Register"
+          placeholder="Enter Solana Stack Exchange Profile Link To Register"
           disabled={locked}
         />
         {isValid && !locked && (
@@ -137,7 +158,7 @@ const StackOverflowLinkVerifier: React.FC<StackOverflowLinkVerifierProps> = () =
         <div className="locked-container">
           <div className="code-container">
             <p className="about-text">
-              Please add the following text to your about section on your Stack Overflow account
+              Please add the following text to your about section on your Solana Stack Exchange account
             </p>
             <div className="code-background">
               <code className="code">Code: {code}</code>
@@ -157,19 +178,22 @@ const StackOverflowLinkVerifier: React.FC<StackOverflowLinkVerifierProps> = () =
               </div>
             )}
             {verificationResult !== null && (
-              <>
-                <div className="verification-background">
-                  <p className={verificationResult === 'Success' ? 'success' : 'verification-result'}>
-                    {verificationResult === 'Success' ? 'Success' : 'Failed to verify'}
-                  </p>
+            <>
+              <div className="verification-background">
+                <p className={verificationResult === 'Success' ? 'success' : 'verification-result'}>
+                  {verificationResult === 'Success' ? 'Success' : 'Failed to verify'}
+                </p>
+              </div>
+              {verificationResult === 'Success' && (
+                <div className="centered-buttons">
+                  <ReactConnectButton />
+                  <ReactDisconnectButton />
+                  <ReactDialogButton />
+                  <SignMessage defaultText={link}></SignMessage>
                 </div>
-                {verificationResult === 'Success' && (
-                  <div>
-                    <SignMessage defaultText={link}></SignMessage>
-                  </div>
-                )}
-              </>
-            )}
+              )}
+            </>
+          )}
           </div>
         </div>
       )}

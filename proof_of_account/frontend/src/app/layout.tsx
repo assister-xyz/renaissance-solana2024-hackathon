@@ -1,3 +1,4 @@
+// RootLayout.tsx
 import './globals.css'
 import type { Metadata } from 'next'
 import WalletContextProvider from '@/components/WalletContextProvider';
@@ -15,6 +16,7 @@ export default function RootLayout({
   return (
     <html lang="en" data-theme="forest">
       <body>
+          <h1 className='centered-header'>Solana Stack Exchange Up Vote Reward</h1>
           <WalletContextProvider>
             {children}
           </WalletContextProvider>

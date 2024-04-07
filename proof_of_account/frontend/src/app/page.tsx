@@ -4,30 +4,7 @@ import React from "react";
 import { useState } from "react";
 import dynamic from "next/dynamic";
 
-import { SignTransaction } from "@/components/SignTransaction";
-import { SignMessage } from "@/components/SignMessage";
-import { SignIn } from "@/components/SignIn";
-//import { StackOverflowLinkVerifier } from "@components/StackOverflowLinkVerifier";
 import StackOverflowLinkVerifier from '../components/StackOverflowLinkVerifier';
-
-const ReactConnectButton = dynamic(
-  async () => (await import("@solana/wallet-adapter-react-ui")).WalletConnectButton,
-  { ssr: false }
-);
-const ReactDisconnectButton = dynamic(
-  async () => (await import("@solana/wallet-adapter-react-ui")).WalletDisconnectButton,
-  { ssr: false }
-);
-const ReactDialogButton = dynamic(
-  async () => (await import("@solana/wallet-adapter-react-ui")).WalletModalButton,
-  { ssr: false }
-);
-const ReactMultiButton = dynamic(
-  async () => (await import("@solana/wallet-adapter-react-ui")).WalletMultiButton,
-  { ssr: false }
-);
-
-
 
 
 const Try = () => {
@@ -87,15 +64,6 @@ const Try = () => {
   return (
     <>
       <StackOverflowLinkVerifier></StackOverflowLinkVerifier>
-      {connectToggle && <div className='flex flex-col h-1/5 items-center justify-center'>
-        <ReactConnectButton />
-      </div>}
-      {disconnectToggle && <div className='flex flex-col h-1/5 items-center justify-center'>
-        <ReactDisconnectButton />
-      </div>}
-      {dialogToggle && <div className='flex flex-col h-1/5 items-center justify-center'>
-        <ReactDialogButton />
-      </div>}
     </>
   );
 
