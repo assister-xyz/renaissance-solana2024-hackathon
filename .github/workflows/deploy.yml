@@ -70,7 +70,7 @@ jobs:
       - name: Build and push POA frontend image
         run: |
           cd proof_of_account/frontend
-          echo "NEXT_PUBLIC_HOST=${{ vars.NEXT_PUBLIC_HOST }} >> .env
+          echo "NEXT_PUBLIC_HOST=${{ vars.NEXT_PUBLIC_HOST }}" >> .env
           echo "NEXT_PUBLIC_PORT=${{ vars.NEXT_PUBLIC_PORT }}" >> .env
           docker build --build-arg NEXT_PUBLIC_HOST=${{ vars.NEXT_PUBLIC_HOST }} --build-arg NEXT_PUBLIC_PORT=${{ vars.NEXT_PUBLIC_PORT }} -t "$IMAGE_NAME_POA_FRONTEND:latest" .
           #docker build -t "$IMAGE_NAME_POA_FRONTEND:latest" .
