@@ -70,11 +70,10 @@ jobs:
       - name: Build and push POA frontend image
         run: |
           cd proof_of_account/frontend
-          #echo "REACT_APP_HOST=${{ vars.REACT_APP_HOST }} >> .env
-          #echo "REACT_APP_PORT=${{ vars.REACT_APP_PORT }}" >> .env
-          #echo "REACT_APP_CONTRACT_ADDRESS=${{ vars.REACT_APP_CONTRACT_ADDRESS }}" >> .env
-          #docker build --build-arg REACT_APP_HOST=${{ vars.REACT_APP_HOST }} --build-arg REACT_APP_PORT=${{ vars.REACT_APP_PORT }} --build-arg REACT_APP_CONTRACT_ADDRESS=${{ vars.REACT_APP_CONTRACT_ADDRESS }} -t "$IMAGE_NAME_POA_FRONTEND:latest" .
-          docker build -t "$IMAGE_NAME_POA_FRONTEND:latest" .
+          echo "NEXT_PUBLIC_HOST=${{ vars.NEXT_PUBLIC_HOST }} >> .env
+          echo "NEXT_PUBLIC_PORT=${{ vars.NEXT_PUBLIC_PORT }}" >> .env
+          docker build --build-arg NEXT_PUBLIC_HOST=${{ vars.NEXT_PUBLIC_HOST }} --build-arg NEXT_PUBLIC_PORT=${{ vars.NEXT_PUBLIC_PORT }} -t "$IMAGE_NAME_POA_FRONTEND:latest" .
+          #docker build -t "$IMAGE_NAME_POA_FRONTEND:latest" .
           docker tag "$IMAGE_NAME_POA_FRONTEND:latest" "$ECR_REPO/$IMAGE_NAME_POA_FRONTEND:latest"
           docker push "$ECR_REPO/$IMAGE_NAME_POA_FRONTEND:latest"
 
