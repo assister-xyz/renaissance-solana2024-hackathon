@@ -226,8 +226,8 @@ def get_users_data(max_users=None):
     return all_users[:max_users] if max_users else all_users
 
 def reward_database_page():
-    if st.button("Initialize MongoDB Collections"):
-        initialize_db()
+    # if st.button("Initialize MongoDB Collections"):
+    #     initialize_db()
 
     if st.button("Get Users Data and Insert into MongoDB"):
         users_data = get_users_data(max_users=10000)
