@@ -1,0 +1,8 @@
+flask
+flask-cors
+python-dotenv
+pinecone-client
+openai
+tiktoken==0.1.1
+langchain
+pymongo

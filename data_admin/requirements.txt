@@ -1,0 +1,12 @@
+beautifulsoup4
+python-dotenv
+pymongo
+pinecone-client
+openai
+pandas
+tiktoken==0.1.1
+langchain
+streamlit
+seaborn
+matplotlib
+openpyxl
