@@ -19,10 +19,24 @@ export const SignMessage: FC<SignMessageProps> = ({ defaultText }) => {
             if (!publicKey) throw new Error('Wallet not connected!');
             if (!signMessage) throw new Error('Wallet does not support message signing!');
 
-            const message = new TextEncoder().encode(defaultText); // Use defaultText as the message
+            const message = new TextEncoder().encode(defaultText); 
             const signature = await signMessage(message);
 
-            if (!ed25519.verify(signature, message, publicKey.toBytes())) throw new Error('Message signature invalid!');
+            const response = await fetch(`${process.env.NEXT_PUBLIC_HOST}:${process.env.NEXT_PUBLIC_PORT}/verify-signature`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    signature: bs58.encode(signature),
+                    message: bs58.encode(message),
+                    publicKey: bs58.encode(publicKey.toBytes()),
+                    userId: defaultText
+                }),
+            });
+            const data = await response.json();
+            console.log(data)
+            if (!data.valid) throw new Error('Message signature invalid!');
             notify('success', `Message signature: ${bs58.encode(signature)}`);
         } catch (error: any) {
             notify('error', `Sign Message failed: ${error?.message}`);
