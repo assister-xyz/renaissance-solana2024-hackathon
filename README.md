@@ -17,7 +17,7 @@ Over the last year, LLMs have empowered real-time conversational chatbot support
 
 To tackle this challenge, we have built an incentive-driven framework that encourages the community to contribute by answering questions at the StackExchange-style interface.
 
-[<img src="architecture.jpg">](https://raw.githubusercontent.com/assister-xyz/renaissance-solana2024-hackathon/main/architecture.jpg)
+[<img src="arch_hackathon.jpg">](https://raw.githubusercontent.com/assister-xyz/renaissance-solana2024-hackathon/main/arch_hackathon.jpg)
 
 **Our framework consists from:**
 
