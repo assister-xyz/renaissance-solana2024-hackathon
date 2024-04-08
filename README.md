@@ -17,6 +17,8 @@ Over the last year, LLMs have empowered real-time conversational chatbot support
 
 To tackle this challenge, we have built an incentive-driven framework that encourages the community to contribute by answering questions at the StackExchange-style interface.
 
+[<img src="architecture.png">](https://raw.githubusercontent.com/assister-xyz/renaissance-solana2024-hackathon/main/architecture.png)
+
 **Our framework consists from:**
 
 -  **Rewarding Mechanism** - We have designed a reward mechanism to incentivize valuable contributions and their validation by the community. For the Hackathon, a address verification procedure for the purpose of rewards claiming process. If a developer wants to claim rewards, he must submit a Proof of Account. That means he needs to prove that he is the owner of the StackOverlow account. That can be done by putting a code in the About section of his StackOverflow account. After that, he would need to provide his address on which rewards would be sent. To do it, he needs to pass the Proof of Wallet procedure by signing his StackOverflow user_id with his Solana Wallet. 
