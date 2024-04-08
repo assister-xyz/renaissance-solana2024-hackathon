@@ -3,6 +3,8 @@ Repository for Assisterr's implementation of solution for Solana Renaissance Glo
 
 More information about the Solana Renaissance Global Online Hackathon 2024 can be found here: https://www.colosseum.org/renaissance
 
+Link to functional application: https://frontend.solana2024.assisterr.ai/
+
 **Intro**
 
 Our solution is a incentive-driven framework that lays **at the intersection of AI, Web3, and DevTooling** and can be used to incentivize the creation of community-owned AI models.
@@ -17,7 +19,7 @@ To tackle this challenge, we have built an incentive-driven framework that encou
 
 **Our framework consists from:**
 
--  **Rewarding Mechanism** - We have designed a reward mechanism to incentivize valuable contributions and their validation by the community. For the Hackathon, a address verification procedure for the purpose of rewards claiming process. If a developer wants to claim rewards, he must submit a Proof of Account. That means he needs to prove that he is the owner of the StackOverlow account. That can be done by putting a code in the About section of his StackOverflow account. After that, he would need to provide his address on which rewards would be sent. To do it, he needs to pass the Proof of Wallet procedure by signing (do sign) his StackOverflow user_id with his Solana Wallet. 
+-  **Rewarding Mechanism** - We have designed a reward mechanism to incentivize valuable contributions and their validation by the community. For the Hackathon, a address verification procedure for the purpose of rewards claiming process. If a developer wants to claim rewards, he must submit a Proof of Account. That means he needs to prove that he is the owner of the StackOverlow account. That can be done by putting a code in the About section of his StackOverflow account. After that, he would need to provide his address on which rewards would be sent. To do it, he needs to pass the Proof of Wallet procedure by signing his StackOverflow user_id with his Solana Wallet. 
 
 -  **RAG model** - The AI part of our solution utilizes the RAG model. Which provides efficient data inference compared to model finetuning. The retriever component is the Pinecone Vector Database, where every vector is a scraped question/answer pair from StackOverflow's "near protocol" tag. Content is categorized by topic/area/programming language and inserted in a database. That also enables provable training functionality, since every vector represents a traceable content chunk. When a developer asks a question, a similarity search is performed on a vector database where question/answer semantics are taken into consideration. With the most similar answers, LLM (ChatGPT 4.0) is poked to structure a fine answer to the developer.
 
