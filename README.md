@@ -17,6 +17,10 @@ Over the last year, LLMs have empowered real-time conversational chatbot support
 
 To tackle this challenge, we have built an incentive-driven framework that encourages the community to contribute by answering questions at the StackExchange-style interface.
 
+**Overview**
+
+Developers can pose questions on the Solana StackExchange, seeking assistance or guidance for Solana development. The Content Retriever then automatically fetches relevant data from the subforum and stores it in the Pinecone Vector Database. Developers can interact with our Backend AI, initiating a Retrieval Augmented Generation (RAG) process. This involves querying the Pinecone Vector Database for similar topics and engaging with the Large Language Model (LLM), powered by Chat GPT 4, to generate comprehensive answers. As a token of appreciation for contributions, developers who provide answers on platforms like Solana StackExchange or Stack Overflow are eligible for rewards. To claim rewards, developers simply need to submit address verification by signing a message using their Solana Wallet. Anybody can ask questions, contribute answers, and claim rewards to enrich the developer's content.
+
 [<img src="arch_hackathon2.jpg">](https://raw.githubusercontent.com/assister-xyz/renaissance-solana2024-hackathon/main/arch_hackathon2.jpg)
 
 **Our framework consists from:**
