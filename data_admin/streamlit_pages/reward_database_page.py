@@ -90,6 +90,13 @@ def export_to_excel():
     st.success("Excel file 'user_stats.xlsx' generated successfully.")
 
 
+def fetch_user_by_id(user_id):
+    user = user_collection.find_one({"user_id": user_id})
+    print(user)
+    if user:
+        return user
+    else:
+        return None
 
 
 
@@ -230,7 +237,7 @@ def reward_database_page():
     #     initialize_db()
 
     if st.button("Get Users Data and Insert into MongoDB"):
-        users_data = get_users_data(max_users=10000)
+        users_data = get_users_data()
         if users_data:
             st.success("Users data inserted into MongoDB.")
         else:
@@ -266,6 +273,21 @@ def reward_database_page():
     
     col1, col2 = st.columns(2)
     with col2:
+        user_id_input = st.text_input("Enter User ID:")
+        if st.button("Fetch User by ID"):
+            if user_id_input:
+                user = fetch_user_by_id(int(user_id_input))
+                if user:
+                    st.success("User found:")
+                    st.json(user)
+                else:
+                    st.warning("User not found.")
+            else:
+                st.warning("Please enter a User ID.")
+
+
+    col1, col2 = st.columns(2)
+    with col2:
         question_count_display = st.number_input("Enter Count of Questions to Display (default is 100)", min_value=1, value=100)
 
     with col1:
@@ -297,6 +319,7 @@ def reward_database_page():
 
             else:
                 st.warning("No Answers Data Found")
+
 
 
     if st.button("Export Data to Excel"):

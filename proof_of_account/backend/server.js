@@ -27,7 +27,7 @@ function getUserIdFromLink(link) {
   if (matches && matches.length > 1) {
       return Number(matches[1]);
   } else {
-      return null;
+      return {};
   }
 }
 
@@ -88,8 +88,9 @@ app.post('/total-upvotes', async (req, res) => {
   try {
     const userId = getUserIdFromLink(user_id);
     const user = await getUserById(userId);
-
-    if (!user.up_vote_count) {
+    console.log(userId)
+    console.log(user)
+    if (!user.hasOwnProperty('up_vote_count')) {
       return res.json({ total_upvotes: 0 });
     }
     return res.json({ total_upvotes: user.up_vote_count });
