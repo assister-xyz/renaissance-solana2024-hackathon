@@ -38,7 +38,12 @@ async function getUserById(userId) {
     const database = client.db(DB_NAME);
     const collection = database.collection('users');
     const user = await collection.findOne({ user_id: userId });
-    return user;
+    if (user){
+      return user;
+    }
+    else{
+      return {};
+    }
   } finally {
     await client.close();
   }
