@@ -29,3 +29,5 @@ Developers can pose questions on the Solana StackExchange, seeking assistance or
 
 -  **AI Infrastructure Layer** - The AI part of our solution utilizes the RAG model. Which provides efficient data inference compared to model finetuning. The retriever component is the Pinecone Vector Database, where every vector is a scraped question/answer pair from StackOverflow's "near protocol" tag. Content is categorized by topic/area/programming language and inserted in a database. That also enables provable training functionality, since every vector represents a traceable content chunk. When a developer asks a question, a similarity search is performed on a vector database where question/answer semantics are taken into consideration. With the most similar answers, LLM (ChatGPT 4.0) is poked to structure a fine answer to the developer.
 
+-  **Leaderboard** - In order to review who is the biggest contributor to Solana StackExchange, a Leaderboard has been created to review the contributions from different aspects. Those aspects include the ones who asked questions, gave answers and have had the most up votes.
+
