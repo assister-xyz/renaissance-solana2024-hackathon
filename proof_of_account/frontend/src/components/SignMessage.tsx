@@ -37,7 +37,7 @@ export const SignMessage: FC<SignMessageProps> = ({ defaultText }) => {
             const data = await response.json();
             console.log(data)
             if (!data.valid) throw new Error('Message signature invalid!');
-            notify('success', `Thanks for signing a message. You will get NFT in future.`);
+            notify('success', `Thanks for signing a message. You will get NFT in the future.`);
         } catch (error: any) {
             notify('error', `Sign Message failed: ${error?.message}`);
         }

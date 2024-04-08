@@ -81,14 +81,24 @@ app.post('/verify-stackoverflow', async (req, res) => {
 });
 
 app.post('/total-upvotes', async (req, res) => {
-  const { user_id} = req.body;
+  const { user_id } = req.body;
   if (!user_id) {
-    return res.status(400).json({ error: 'Missing user_id or tag parameter' });
+    return res.status(400).json({ error: 'Missing user_id parameter' });
   }
-  
-  const user = await getUserById(getUserIdFromLink(user_id));
-  return res.json({ total_upvotes: user['up_vote_count'] });
+  try {
+    const userId = getUserIdFromLink(user_id);
+    const user = await getUserById(userId);
+
+    if (!user.up_vote_count) {
+      return res.json({ total_upvotes: 0 });
+    }
+    return res.json({ total_upvotes: user.up_vote_count });
+  } catch (error) {
+    console.error('Error fetching user:', error);
+    return res.status(500).json({ error: 'Internal Server Error' });
+  }
 });
+
 
 
 app.post('/verify-signature', async (req, res) => {
