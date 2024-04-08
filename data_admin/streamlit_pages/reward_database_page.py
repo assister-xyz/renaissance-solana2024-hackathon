@@ -237,6 +237,7 @@ def reward_database_page():
     #     initialize_db()
 
     if st.button("Get Users Data and Insert into MongoDB"):
+        initialize_db()
         users_data = get_users_data()
         if users_data:
             st.success("Users data inserted into MongoDB.")
@@ -244,7 +245,7 @@ def reward_database_page():
             st.warning("No Users Data Found")
 
     if st.button("Get Question Data and Insert into MongoDB"):
-        question_data = get_questions_data(max_questions=10000)
+        question_data = get_questions_data()
         if question_data:
             st.success("Questions data inserted into MongoDB.")
         else:
