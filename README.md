@@ -31,3 +31,12 @@ Developers can pose questions on the Solana StackExchange, seeking assistance or
 
 -  **Leaderboard** - In order to review who is the biggest contributor to Solana StackExchange, a Leaderboard has been created to review the contributions from different aspects. Those aspects include the ones who asked questions, gave answers and have had the most up votes.
 
+**Technologies used**
+- Python
+- OpenAI API
+- Next.js
+- MongoDB
+- Pinecone
+- Node.js
+
+
