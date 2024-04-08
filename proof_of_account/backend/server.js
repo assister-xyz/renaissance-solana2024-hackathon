@@ -89,7 +89,7 @@ app.post('/total-upvotes', async (req, res) => {
     const userId = getUserIdFromLink(user_id);
     const user = await getUserById(userId);
 
-    if (!user || !user.up_vote_count) {
+    if (!user.up_vote_count) {
       return res.json({ total_upvotes: 0 });
     }
     return res.json({ total_upvotes: user.up_vote_count });
