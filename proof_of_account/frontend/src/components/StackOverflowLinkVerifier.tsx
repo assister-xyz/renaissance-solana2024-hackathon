@@ -1,8 +1,5 @@
 import React, { useState, ChangeEvent } from 'react';
-import axios, { AxiosError } from 'axios'; // Import AxiosError for type declaration
-import { SignTransaction } from "@/components/SignTransaction";
 import { SignMessage } from "@/components/SignMessage";
-import { SignIn } from "@/components/SignIn";
 import dynamic from "next/dynamic";
 
 const ReactConnectButton = dynamic(
